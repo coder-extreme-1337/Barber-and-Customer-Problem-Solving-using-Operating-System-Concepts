@@ -7,15 +7,14 @@
 #include<stdlib.h>
 #include<unistd.h>
 #include<dirent.h>
-int size;
-int val=0;
 sem_t s;
+int size;
 pthread_mutex_t m;
 pthread_mutex_t m1;
 struct customer
 {
-	int *c_id;
-	int *time;
+	int c_id[100];
+	int time[100];
 };
 struct barber
 {
@@ -32,7 +31,7 @@ void *check(void *args)
 	int i;
 	pthread_mutex_lock(&m);
 	struct customer *ptr1=args;
-	for(i=0;i<3;i++)
+	for(i=0;i<size;i++)
 	{
 		if(ptr1->c_id[i]!=0)
 		{
@@ -83,7 +82,7 @@ void *working1(void *args2)
 	ptr2.state=1;
 	sem_wait(&s);
 		printf("To Continue Press 0 and to go back Press1:\n");
-		for(i=0;i<3;i++)
+		for(i=0;i<size;i++)
 		{
 			if(ptr1->c_id[i]!=0)
 			{
@@ -103,30 +102,18 @@ void *working1(void *args2)
 		
 		
 }
-	int *chairs()
-	{
-		int *ptr;
-		printf("Enter the number of chairs\n");
-		scanf("%d",&size);
-		ptr=&size;
-		val++;
-		return ptr;
-	}
-	
 int main()
 {
-	int i,loop=0,var,time1=0,temp=0,remove,*temp1;
+	int i,loop=0,var,time1=0,temp=0,remove,*ptr;
 	pthread_t request,work;
 	sem_init(&s,1,1);
 	struct customer ptr1;
-
-	while(val==0)
-	{
-		temp1=chairs();
-	}
-	int queue[*temp1];
+	printf("Enter the number of chairs in waiting room\n");
+	scanf("%d",&size);
+	ptr=&size;
+	int queue[*ptr];
 	//struct barber ptr2;
-	for(i=0;i<3;i++)
+	for(i=0;i<size;i++)
 	{
 		ptr1.c_id[i]=0;
 		ptr1.time[i]=0;
@@ -150,7 +137,7 @@ int main()
 			scanf("%d",&temp);
 			printf("Enter the time taken by customer in seconds\n");
 			scanf("%d",&time1);
-			for(i=0;i<3;i++)
+			for(i=0;i<size;i++)
 			{
 				if(queue[i]!=1)
 				{
@@ -173,13 +160,13 @@ int main()
 			break;
 		case 2:
 			printf("\ncustomer ID with Time:\n");
-			for(i=0;i<3;i++)
+			for(i=0;i<size;i++)
 			{
 				printf("%d. Id:%d ->Time:%d\n",i,ptr1.c_id[i],ptr1.time[i]);
 			}
 			printf("\nEnter the ID of customer to be removed:\n");
 			scanf("%d",&remove);
-			for(i=0;i<3;i++)
+			for(i=0;i<size;i++)
 			{
 				if(ptr1.c_id[i]==remove)
 				{
@@ -193,7 +180,7 @@ int main()
 			break;
 		case 3:
 			printf("\nSCENARIO\n");
-			for(i=0;i<3;i++)
+			for(i=0;i<size;i++)
 			{
 				printf("ID: %d  Time: %d\n",ptr1.c_id[i],ptr1.time[i]);
 			}
@@ -208,4 +195,3 @@ int main()
 	}
 	mainfunc();
 }
-
