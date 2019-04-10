@@ -90,11 +90,6 @@ void *working1(void *args2)
 			{
 			printf("Barber Teaching -->Stdudent ID :%d  for  %d seconds...\n",ptr1->customer_id[i],ptr1->time[i]);
 			sleep(ptr1->time[i]);
-			scanf("%d",&a);
-			if(a==1)
-			{
-				//mainfunc();
-			}
 			}
 		}
 		
