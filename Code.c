@@ -6,14 +6,13 @@
 #include<sys/types.h>
 #include<stdlib.h>
 #include<unistd.h>
-#include<dirent.h>
-sem_t s;
+sem_t semaphore;
 int size;
-pthread_mutex_t m;
-pthread_mutex_t m1;
+pthread_mutex_t mutex;
+pthread_mutex_t mutex1;
 struct customer
 {
-	int c_id[100];
+	int customer_id[100];
 	int time[100];
 };
 struct barber
@@ -28,26 +27,29 @@ void *sleeping(void *args3);
 void *check(void *args)
 {
 	pthread_t slept;
-	int i;
-	pthread_mutex_lock(&m);
+	int i,j;
+	pthread_mutex_lock(&mutex);
 	struct customer *ptr1=args;
 	for(i=0;i<size;i++)
 	{
-		if(ptr1->c_id[i]!=0)
+		if(ptr1->customer_id[i]!=0)
 		{
 			ptr2.state=1;
 			break;	
 		}
-		if(ptr1->c_id[0]==ptr1->c_id[1]==ptr1->c_id[2]==0)
+		for(j=0;j<size;j++)
+		{
+		if(ptr1->customer_id[j]==0)
 		{
 			ptr2.state=0;
 			goto j2;
+		}
 		}
 	}
 	j2:	
 		pthread_create(&slept,NULL,sleep11 ,NULL);
 		pthread_join(slept,NULL);
-	pthread_mutex_unlock(&m);
+	pthread_mutex_unlock(&mutex);
 //	return 0;
 }
 void *sleep11(void *args1)
@@ -59,7 +61,7 @@ void *sleeping(void *args3)
 	int i,a;
 	printf("Enter 1 for new customer:\n");
 	printf("\nBarber Sleeping: \n");
-	pthread_mutex_lock(&m1);
+	pthread_mutex_lock(&mutex1);
 	for(i=0;i<100;i++)
 	{
 		scanf("%d",&a);
