@@ -88,7 +88,7 @@ void *working1(void *args2)
 		{
 			if(ptr1->customer_id[i]!=0)
 			{
-			printf("Barber Teaching -->Stdudent ID :%d  for  %d seconds...\n",ptr1->customer_id[i],ptr1->time[i]);
+			printf("Barber cutting -->Customer ID :%d  for  %d seconds...\n",ptr1->customer_id[i],ptr1->time[i]);
 			sleep(ptr1->time[i]);
 			}
 		}
