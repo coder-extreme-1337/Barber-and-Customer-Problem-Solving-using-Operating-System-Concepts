@@ -185,6 +185,8 @@ int main()
 			pthread_join(work,NULL);
 			break;
 		case 4:
+			printf("\nTHANKYOU YOU FOR USING\nDEVELOPED BY:\nRAHUL VERMA \n11811619\nK18lE");
+			sleep(5);
 			loop=1;
 			break;
 	}
