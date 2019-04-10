@@ -73,7 +73,7 @@ void *sleeping(void *args3)
 	}
 	j3:
 		main();
-	pthread_mutex_unlock(&m1);
+	pthread_mutex_unlock(&mutex1);
 	
 }
 void *working1(void *args2)
@@ -82,11 +82,11 @@ void *working1(void *args2)
 	pthread_t slept12;
 	struct customer *ptr1=args2;
 	ptr2.state=1;
-	sem_wait(&s);
+	sem_wait(&semaphore);
 		printf("To Continue Press 0 and to go back Press1:\n");
 		for(i=0;i<size;i++)
 		{
-			if(ptr1->c_id[i]!=0)
+			if(ptr1->customer_id[i]!=0)
 			{
 			printf("Barber Teaching -->Stdudent ID :%d  for  %d seconds...\n",ptr1->c_id[i],ptr1->time[i]);
 			sleep(ptr1->time[i]);
@@ -98,7 +98,7 @@ void *working1(void *args2)
 			}
 		}
 		
-	sem_post(&s);
+	sem_post(&semaphore);
 		pthread_create(&slept12,NULL,sleeping ,NULL);
 		pthread_join(slept12,NULL);
 		
@@ -108,7 +108,7 @@ int main()
 {
 	int i,loop=0,var,time1=0,temp=0,remove,*ptr;
 	pthread_t request,work;
-	sem_init(&s,1,1);
+	sem_init(&semaphore,1,1);
 	struct customer ptr1;
 	printf("Enter the number of chairs in waiting room\n");
 	scanf("%d",&size);
@@ -117,7 +117,7 @@ int main()
 	//struct barber ptr2;
 	for(i=0;i<size;i++)
 	{
-		ptr1.c_id[i]=0;
+		ptr1.customer_id[i]=0;
 		ptr1.time[i]=0;
 	}
 
@@ -129,7 +129,7 @@ int main()
 	printf("\nPlease ENTER The Following choices:\n");
 	printf("1. ADD a new customer\n");
 	printf("2. REMOVE an old customer\n");
-	printf("3. DISPLAY current scenario\n");
+	printf("3. DISPLAY current Scenario\n");
 	printf("4. EXIT\n");
 	scanf("%d",&var);
 	switch(var)
@@ -151,11 +151,11 @@ int main()
 					printf("Chair %d id occupied\n",i);
 				}
 			}
-			printf("\nSORRY WAIT FOR SOME TIME\n");
+			printf("SORRY WAIT FOR SOME TIME\n");
 			break;
 			j1:
-			printf("\nThanks for your entry\n");
-			ptr1.c_id[i]=temp;
+			printf("Thanks for your entry\n");
+			ptr1.customer_id[i]=temp;
 			ptr1.time[i]=time1;
 			pthread_create(&request,NULL,check ,&ptr1);
 			pthread_join(request,NULL);
@@ -164,15 +164,15 @@ int main()
 			printf("\ncustomer ID with Time:\n");
 			for(i=0;i<size;i++)
 			{
-				printf("%d. Id:%d ->Time:%d\n",i,ptr1.c_id[i],ptr1.time[i]);
+				printf("%d. Id:%d ->Time:%d\n",i,ptr1.customer_id[i],ptr1.time[i]);
 			}
 			printf("\nEnter the ID of customer to be removed:\n");
 			scanf("%d",&remove);
 			for(i=0;i<size;i++)
 			{
-				if(ptr1.c_id[i]==remove)
+				if(ptr1.customer_id[i]==remove)
 				{
-					ptr1.c_id[i]=0;
+					ptr1.customer_id[i]=0;
 					ptr1.time[i]=0;
 					queue[i]=0;
 				}
@@ -184,7 +184,7 @@ int main()
 			printf("\nSCENARIO\n");
 			for(i=0;i<size;i++)
 			{
-				printf("ID: %d  Time: %d\n",ptr1.c_id[i],ptr1.time[i]);
+				printf("ID: %d  Time: %d\n",ptr1.customer_id[i],ptr1.time[i]);
 			}
 			pthread_create(&work,NULL,working1 ,&ptr1);
 			pthread_join(work,NULL);
