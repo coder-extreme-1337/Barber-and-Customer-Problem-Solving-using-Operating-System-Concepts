@@ -23,7 +23,6 @@ void mainfunc();
 void *working1(void *args2);
 void *sleep11(void *args1);
 void *sleeping(void *args3);
-
 void *check(void *args)
 {
 	pthread_t slept;
@@ -74,7 +73,6 @@ void *sleeping(void *args3)
 	j3:
 		main();
 	pthread_mutex_unlock(&mutex1);
-	
 }
 void *working1(void *args2)
 {
@@ -92,12 +90,9 @@ void *working1(void *args2)
 			sleep(ptr1->time[i]);
 			}
 		}
-		
 	sem_post(&semaphore);
 		pthread_create(&slept12,NULL,sleeping ,NULL);
-		pthread_join(slept12,NULL);
-		
-		
+		pthread_join(slept12,NULL);	
 }
 int main()
 {
@@ -115,10 +110,8 @@ int main()
 		ptr1.customer_id[i]=0;
 		ptr1.time[i]=0;
 	}
-
 	void mainfunc()
 	{
-	
 	while(loop==0)
 	{
 	printf("\nPlease ENTER The Following choices:\n");
